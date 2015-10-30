@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-static public class MethodExtensionForMonoBehaviourTransform
+namespace Unify
 {
-    /// <summary>
-    /// Gets or add a component. Usage example:
-    /// BoxCollider boxCollider = transform.GetOrAddComponent<BoxCollider>();
-    /// </summary>
-    static public T GetOrAddComponent<T>(this Component child) where T : Component
+    static public class MethodExtensionForMonoBehaviourTransform
     {
-        T result = child.GetComponent<T>();
-        if (result == null)
+        /// <summary>
+        /// Gets or add a component. Usage example:
+        /// BoxCollider boxCollider = transform.GetOrAddComponent<BoxCollider>();
+        /// </summary>
+        static public T GetOrAddComponent<T>(this Component child) where T : Component
         {
-            result = child.gameObject.AddComponent<T>();
+            T result = child.GetComponent<T>();
+            if (result == null)
+            {
+                result = child.gameObject.AddComponent<T>();
+            }
+            return result;
         }
-        return result;
     }
 }
