@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-namespace drg
+namespace DRG.Performance
 {
     // Place this script to the object, which should be batched
     public class StaticBatchingObject : MonoBehaviour 

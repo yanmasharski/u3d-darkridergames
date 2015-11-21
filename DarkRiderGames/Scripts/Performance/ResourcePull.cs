@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Unify;
 
-namespace DRG
+namespace DRG.Performance
 {
-    public class ResourcePull : Singleton<ResourcePull>
+    public class ResourcePull : SingletonMonoBehaviour<ResourcePull>
     {
         private Dictionary<Object, List<IResourcePullElement>> Pull = new Dictionary<Object, List<IResourcePullElement>>();
         private Dictionary<string, Object> ResourcePathDictionary = new Dictionary<string, Object>();
@@ -40,6 +40,7 @@ namespace DRG
                 prefabPull.Add(instance);
             }
 
+            instance.Restrain();
             return instance.AttachedObject;
         }
 

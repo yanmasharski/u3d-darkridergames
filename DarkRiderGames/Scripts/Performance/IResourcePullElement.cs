@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DRG
+namespace DRG.Performance
 {
     public interface IResourcePullElement
     {

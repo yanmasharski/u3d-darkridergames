@@ -1,6 +1,6 @@
 using System;
 
-namespace drg.Patterns
+namespace DRG.Patterns
 {
     public sealed class Singleton
     {

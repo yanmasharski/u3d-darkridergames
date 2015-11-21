@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-namespace drg
+namespace DRG.Performance
 {
     // Place this script to the object, which should be the root for batching objects group
     public class StaticBatchingRoot : MonoBehaviour
