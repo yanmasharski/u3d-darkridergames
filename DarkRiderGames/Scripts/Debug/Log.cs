@@ -18,9 +18,15 @@
         {
             Logger.Warning(m);
         }
+
         public static void Error(string m)
         {
             Logger.Error(m);
+        }
+
+        public static void Exception(System.Exception e)
+        {
+            Logger.Exception(e);
         }
     }
 }

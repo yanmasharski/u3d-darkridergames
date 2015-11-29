@@ -3,26 +3,35 @@ using System;
 using System.Collections;
 using Unify;
 
-public class WWWProcessor : SingletonMonoBehaviour<WWWProcessor>
+namespace DRG.Network
 {
-
-	
-    public void SendRequest(WWW www, Action<string> onSuccess, Action<string> onFail)
+    public class WWWProcessor : SingletonMonoBehaviour<WWWProcessor>
     {
-        StartCoroutine(StartRequest(www, onSuccess, onFail));
-    }
-    
-    private IEnumerator StartRequest(WWW www, Action<string> onSuccess, Action<string> onFail)
-    {
-        yield return www;
 
-        if (String.IsNullOrEmpty(www.error) == true)
+        public void SendRequest(WWW www, Action<string> onSuccess = null, Action<string> onFail = null)
         {
-            onSuccess(www.text);
+            StartCoroutine(StartRequest(www, onSuccess, onFail));
         }
-        else
+
+        private IEnumerator StartRequest(WWW www, Action<string> onSuccess, Action<string> onFail)
         {
-            onSuccess(www.error);
+            yield return www;
+
+            if (String.IsNullOrEmpty(www.error) == true)
+            {
+                if (onSuccess!= null)
+                {
+                    onSuccess(www.text);
+                }
+            }
+            else
+            {
+                if (onFail != null)
+                {
+                    onFail(www.error);
+                }
+            }
         }
     }
 }
+

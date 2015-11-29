@@ -16,5 +16,10 @@
         {
             UnityEngine.Debug.LogError(m);
         }
+
+        public void Exception(System.Exception e)
+        {
+            UnityEngine.Debug.LogException(e);
+        }
     }
 }

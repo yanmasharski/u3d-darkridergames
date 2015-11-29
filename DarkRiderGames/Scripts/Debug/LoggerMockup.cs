@@ -16,5 +16,10 @@
         {
             // NOOP
         }
+
+        public void Exception(System.Exception e)
+        {
+            // NOOP
+        }
     }
 }
