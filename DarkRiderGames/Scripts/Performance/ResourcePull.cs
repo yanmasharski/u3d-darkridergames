@@ -9,6 +9,16 @@ namespace DRG.Performance
         private Dictionary<Object, List<IResourcePullElement>> Pull = new Dictionary<Object, List<IResourcePullElement>>();
         private Dictionary<string, Object> ResourcePathDictionary = new Dictionary<string, Object>();
 
+        public T GetInstance<T>(string path) where T : Component
+        {
+            return (GetInstance(path) as GameObject).GetComponent<T>();
+        }
+
+        public T GetInstance<T>(Object prefab) where T : Component
+        {
+            return (GetInstance(prefab) as GameObject).GetComponent<T>();
+        }
+
         public Object GetInstance(string path)
         {
             Object prefab;
