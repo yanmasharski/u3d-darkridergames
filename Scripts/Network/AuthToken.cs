@@ -13,7 +13,7 @@ namespace DRG.Network
         {
             get
             {
-                return ExpireDate < DateTime.UtcNow;
+                return ExpireDate > DateTime.UtcNow;
             }
         }
 
