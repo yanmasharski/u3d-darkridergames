@@ -1,4 +1,5 @@
-﻿using DRG.Debug;
+﻿using System.Net;
+using DRG.Debug;
 
 namespace DRG.Network
 {
@@ -25,6 +26,17 @@ namespace DRG.Network
 
             Log.Error("Unsupported extension \"" + extension + "\"");
             return "";
+        }
+
+        public static HttpStatusCode MapErrorToCode(string error)
+        {
+            if (error.StartsWith("401"))
+            {
+                return HttpStatusCode.Unauthorized;
+            }
+
+            // not implemented will be mapped as bad request
+            return HttpStatusCode.BadRequest;
         }
     }
 }
