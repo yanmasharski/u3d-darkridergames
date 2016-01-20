@@ -1,15 +1,27 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿#if GOOGLE_ANALYTICS
+namespace DRG.Analytics
+{
+    using UnityEngine;
 
-public class ASGoogleAnalytics : MonoBehaviour {
+    public class ASGoogleAnalytics : IAnalyticsSystem
+    {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+        private GoogleAnalyticsV4 GoogleAnalytics;
+
+        public void Init()
+        {
+            // fill GA
+            GoogleAnalytics = new GameObject("GoogleAnalytics").AddComponent<GoogleAnalyticsV4>();
+            Object.DontDestroyOnLoad(GoogleAnalytics.gameObject);
+        }
+
+        public void SendEvent(string name)
+        {
+            EventHitBuilder ehb = new EventHitBuilder();
+            ehb.SetEventAction(name);
+            GoogleAnalytics.LogEvent(ehb);
+        }
+
+    }
 }
+#endif

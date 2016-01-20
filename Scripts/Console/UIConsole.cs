@@ -58,7 +58,7 @@ public class UIConsole : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.F1) == true)
+        if (Input.GetKey(KeyCode.Equals) == true)
         {
             Show();
         }
