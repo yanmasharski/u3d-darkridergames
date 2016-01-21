@@ -61,15 +61,7 @@ namespace DRG.UI
         /// </summary>
         public void NextScreen()
         {
-            int realCurrentScreen = GetCurrentScreenNumber();
-
-            if (realCurrentScreen < ScreensCount - 1)
-            {
-                _lerp = true;
-                _lerp_target = Positions[realCurrentScreen + 1];
-
-                UpdatePagination(realCurrentScreen + 1);
-            }
+            ToScreen(GetCurrentScreenNumber() + 1);
         }
 
         /// <summary>
@@ -77,14 +69,20 @@ namespace DRG.UI
         /// </summary>
         public void PreviousScreen()
         {
-            int realCurrentScreen = GetCurrentScreenNumber();
+            ToScreen(GetCurrentScreenNumber() - 1);
+        }
 
-            if (realCurrentScreen > 0)
+        /// <summary>
+        /// Function for switching screens
+        /// </summary>
+        public void ToScreen(int screenNumber)
+        {
+            if (screenNumber > 0 && screenNumber < Positions.Count)
             {
                 _lerp = true;
-                _lerp_target = Positions[realCurrentScreen - 1];
+                _lerp_target = Positions[screenNumber];
 
-                UpdatePagination(realCurrentScreen - 1);
+                UpdatePagination(screenNumber);
             }
         }
 
@@ -101,8 +99,6 @@ namespace DRG.UI
 
         private void Start()
         {
-            DistributePages();
-
             ScreensCount = ScreensContainer.childCount;
             
             for (int i = 0; i < ScreensCount; ++i)
@@ -125,6 +121,11 @@ namespace DRG.UI
             if (PrevButton != null)
             {
                 PrevButton.onClick.AddListener(PreviousScreen);
+            }
+
+            if (Pagination != null)
+            {
+                Pagination.OnScreenSelectorClick += ToScreen;
             }
         }
 
@@ -300,34 +301,6 @@ namespace DRG.UI
                 Pagination.SetSelected(currentScreen);
             }
                 
-        }
-
-        /// <summary>
-        /// used for changing between screen resolutions
-        /// </summary>
-        private void DistributePages()
-        {
-            int _offset = 0;
-            int _step = Screen.width;
-            int _dimension = 0;
-
-            int currentXPosition = 0;
-
-            RectTransform rectTransform = gameObject.GetComponent<RectTransform>();
-            float width = rectTransform.rect.width;
-            float height = rectTransform.rect.height;
-
-            for (int i = 0; i < ScreensContainer.childCount; i++)
-            {
-                RectTransform child = ScreensContainer.GetChild(i).gameObject.GetComponent<RectTransform>();
-                currentXPosition = _offset + i * _step;
-                child.anchoredPosition = new Vector2(currentXPosition, 0f);
-                child.sizeDelta = new Vector2(width, height);
-            }
-
-            _dimension = currentXPosition + _offset * -1;
-
-            ScreensContainer.offsetMax = new Vector2(_dimension, 0f);
         }
     }
 }

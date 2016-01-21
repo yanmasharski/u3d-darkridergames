@@ -10,16 +10,18 @@ public class PaginationElement : MonoBehaviour, IPaginationElement
     [SerializeField]
     private int FId;
 
-    private void OnValueChanged(bool val)
+    private Pagination Pagination;
+
+    public void OnClick()
     {
-        Log.Message("OnValueChanged: " + val);
+        Pagination.OnScreenSelectorClick(FId);
     }
 
     #region MonoBehaviour
     private void Awake()
     {
-        Toggle.onValueChanged.AddListener(OnValueChanged);
-        GetComponentInParent<Pagination>().Connect(this);
+        Pagination = GetComponentInParent<Pagination>();
+        Pagination.Connect(this);
     }
     #endregion
 

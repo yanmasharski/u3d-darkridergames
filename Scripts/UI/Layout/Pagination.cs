@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using DRG.UI;
+using System;
 using System.Collections.Generic;
 
 public class Pagination : MonoBehaviour, IPagination
@@ -13,7 +14,9 @@ public class Pagination : MonoBehaviour, IPagination
         IsDirty = true;
     }
 
-	public void SetSelected(int currentScreen)
+    public Action<int> OnScreenSelectorClick { get; set; }
+
+    public void SetSelected(int currentScreen)
     {
         if (IsDirty)
         {
