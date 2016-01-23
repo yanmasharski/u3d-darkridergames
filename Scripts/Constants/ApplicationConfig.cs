@@ -1,7 +1,7 @@
 ﻿namespace DRG.Constants
 {
 
-    public abstract class ApplicationConstant
+    public abstract class ApplicationConfig
     {
         public virtual void SaveToCache()
         {

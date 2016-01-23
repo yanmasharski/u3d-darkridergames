@@ -3,11 +3,11 @@
     using System;
     using System.Reflection;
 
-    public abstract class ApplicationConstants
+    public abstract class ApplicationConfigs
     {
         protected ACHashCode HashCode = new ACHashCode();
 
-        public T Get<T>() where T : ApplicationConstant
+        public T Get<T>() where T : ApplicationConfig
         {
             Type constantType = typeof(T);
             Type instanceType = GetType();
@@ -31,7 +31,7 @@
             for (int fieldIndex = 0; fieldIndex < fields.Length; fieldIndex++)
             {
                 FieldInfo field = fields[fieldIndex];
-                ApplicationConstant applicationConstant = field.GetValue(this) as ApplicationConstant;
+                ApplicationConfig applicationConstant = field.GetValue(this) as ApplicationConfig;
 
                 if (applicationConstant != null)
                 {
@@ -50,7 +50,7 @@
             for (int fieldIndex = 0; fieldIndex < fields.Length; fieldIndex++)
             {
                 FieldInfo field = fields[fieldIndex];
-                ApplicationConstant applicationConstant = field.GetValue(this) as ApplicationConstant;
+                ApplicationConfig applicationConstant = field.GetValue(this) as ApplicationConfig;
 
                 if (applicationConstant != null)
                 {

@@ -1,7 +1,7 @@
 ﻿namespace DRG.Constants
 {
 
-    public class ACHashCode : ApplicationConstant
+    public class ACHashCode : ApplicationConfig
     {
 
         private const int DEFAULT_VALUE = 0;

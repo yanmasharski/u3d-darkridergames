@@ -1,6 +1,7 @@
 ﻿#if GOOGLE_ANALYTICS
 namespace DRG.Analytics
 {
+    using System;
     using UnityEngine;
 
     public class ASGoogleAnalytics : IAnalyticsSystem
@@ -11,8 +12,12 @@ namespace DRG.Analytics
         public void Init()
         {
             // fill GA
-            GoogleAnalytics = new GameObject("GoogleAnalytics").AddComponent<GoogleAnalyticsV4>();
-            Object.DontDestroyOnLoad(GoogleAnalytics.gameObject);
+            GoogleAnalytics = UnityEngine.Object.FindObjectOfType<GoogleAnalyticsV4>();
+
+            if (GoogleAnalytics == null)
+            {
+                throw new Exception("GoogleAnalytics is not setted up!");
+            }
         }
 
         public void SendEvent(string name)
