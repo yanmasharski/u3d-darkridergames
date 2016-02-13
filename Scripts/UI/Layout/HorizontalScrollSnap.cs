@@ -3,12 +3,12 @@
 /// Updated by ddreaper - removed dependency on a custom ScrollRect script. Now implements drag interfaces and standard Scroll Rect.
 /// Source https://bitbucket.org/ddreaper/unity-ui-extensions Changeset: 42b077ed87b094bbbde4eef6671c26941edb98f2 
 /// Modified by yanmasharski
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using DRG.Math;
 
 namespace DRG.UI
 {
@@ -179,7 +179,7 @@ namespace DRG.UI
                     _fastSwipeTimer = false;
                     if (_fastSwipeCounter <= _fastSwipeTarget)
                     {
-                        if (Math.Abs(_startPosition.x - ScreensContainer.localPosition.x) > FastSwipeThreshold)
+                        if (MathUtils.Abs(_startPosition.x - ScreensContainer.localPosition.x) > FastSwipeThreshold)
                         {
                             fastSwipe = true;
                         }
@@ -281,7 +281,7 @@ namespace DRG.UI
         /// <returns></returns>
         public int GetCurrentScreenNumber()
         {
-            float absPoz = Math.Abs(ScreensContainer.offsetMin.x);
+            float absPoz = MathUtils.Abs(ScreensContainer.offsetMin.x);
 
             absPoz = Mathf.Clamp(absPoz, 1, _containerSize - 1);
 
