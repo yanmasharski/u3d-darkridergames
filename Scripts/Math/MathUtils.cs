@@ -26,12 +26,7 @@
 
         public static float Abs(float f)
         {
-            if (f > 0)
-            {
-                return f;
-            }
-
-            return -f;
+            return (f < 0 ? -f : f);
         }
     }
 }
