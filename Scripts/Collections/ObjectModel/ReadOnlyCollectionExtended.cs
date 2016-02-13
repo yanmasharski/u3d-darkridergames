@@ -24,5 +24,22 @@ namespace DRG.Collections.ObjectModel
 
             return result;
         }
+
+        /// <summary>
+        /// </summary>
+        static public T Find<T>(this ReadOnlyCollection<T> collection, Predicate<T> predicate)
+        {
+            for (int i = 0; i < collection.Count; i++)
+            {
+                T element = collection[i];
+
+                if (predicate(element) == true)
+                {
+                    return element;
+                }
+            }
+
+            return default(T);
+        }
     }
 }
