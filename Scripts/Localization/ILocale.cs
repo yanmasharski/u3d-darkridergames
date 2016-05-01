@@ -1,15 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿namespace DRG.Localization
+{
+    public interface ILocale
+    {
+        bool Has(string key);
 
-public class ILocale : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+        bool TryToGet(string key, out string result);
+    }
 }

@@ -4,18 +4,30 @@
 
     public static class Localizer
     {
-        private static Dictionary<string, string> DictionaryActive = new Dictionary<string, string>();
+        private static List<ILocale> localeList = new List<ILocale>();
 
-        public static string GetValue(string key)
+        public static string Get(string key)
         {
             string val;
 
-            if (DictionaryActive.TryGetValue(key, out val) == false)
+            for (int i = 0; i < localeList.Count; i++)
             {
-                return key;
+                if (localeList[i].TryToGet(key, out val))
+                {
+                    return val;
+                }
             }
 
-            return val;
+#if UNITY_EDITOR
+            return "#" + key;
+#else
+            return key;
+#endif
+        }
+
+        public static void AddLocale(ILocale locale)
+        {
+
         }
     }
 }

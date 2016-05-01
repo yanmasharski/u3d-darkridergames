@@ -30,6 +30,7 @@ public class UIConsole : MonoBehaviour
         toggle.transform.SetParent(LayoutButtons.transform);
         toggle.Connect(consoleElement);
         toggle.SetText(name);
+        toggle.transform.localScale = Vector3.one;
 
         consoleElement.AddAsChild(LayoutMain.transform);
     }
