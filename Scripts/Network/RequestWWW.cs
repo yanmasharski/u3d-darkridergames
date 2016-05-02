@@ -7,13 +7,13 @@
 
     public class RequestWWW : IRequest
     {
-        public event Action<string> onSuccess;
+        public event Action<IRequest, string> onSuccess;
 
-        public event Action<string> onFail;
+        public event Action<IRequest, string> onFail;
 
         public bool inProgress { get; private set; }
 
-        private WWW www;
+        public WWW www { get; private set; }
 
         public RequestWWW(string url)
         {
@@ -33,8 +33,8 @@
 
             inProgress = false;
 
-            if (string.IsNullOrEmpty(www.error))onSuccess.InvokeSafe(www.text);
-            else onFail.InvokeSafe(www.error);
+            if (string.IsNullOrEmpty(www.error))onSuccess.InvokeSafe(this, www.text);
+            else onFail.InvokeSafe(this, www.error);
         }
     }
 }

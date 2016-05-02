@@ -5,8 +5,8 @@
 
     public interface IRequest
     {
-        event Action<string> onSuccess;
-        event Action<string> onFail;
+        event Action<IRequest, string> onSuccess;
+        event Action<IRequest, string> onFail;
 
         bool inProgress { get; }
         IEnumerator Invoke();
