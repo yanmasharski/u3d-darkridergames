@@ -27,7 +27,11 @@
 
         public IEnumerator Invoke()
         {
+            inProgress = true;
+
             yield return www;
+
+            inProgress = false;
 
             if (string.IsNullOrEmpty(www.error))onSuccess.InvokeSafe(www.text);
             else onFail.InvokeSafe(www.error);
