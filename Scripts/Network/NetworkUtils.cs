@@ -22,6 +22,8 @@ namespace DRG.Network
                     return "audio/wav";
                 case ".spx":
                     return "audio/x-speex";
+                case ".flac":
+                    return "audio/x-flac";
             }
 
             Log.Error("Unsupported extension \"" + extension + "\"");
