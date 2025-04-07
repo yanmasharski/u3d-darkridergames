@@ -6,6 +6,9 @@ using UnityEngine;
 /// DataStorage is a high-performance wrapper around Unity's PlayerPrefs system.
 /// It provides an in-memory cache with dirty tracking to minimize disk operations
 /// and improve performance when dealing with persistent data.
+/// Additionally, this system enforces structured data access through the DataRecord
+/// interface, which enhances code organization, facilitates debugging, and enables
+/// robust data validation.
 /// </summary>
 public static class DataStorage
 {
