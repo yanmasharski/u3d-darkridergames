@@ -148,30 +148,15 @@ public static class DataStorage
     /// </summary>
     /// <param name="framesCooldown">Number of frames to wait before saving. If greater than 0,
     /// the save operation will be performed after the specified number of frames.</param>
-    public static void Save(int framesCooldown = 0)
+    public static void Save(int framesCooldown = 60)
     {
-        if (framesCooldown > 0)
+        saveProcessor.framesCooldown = framesCooldown;
+        if (saveCoroutine != null)
         {
-            saveProcessor.framesCooldown = framesCooldown;
-            if (saveCoroutine != null)
-            {
-                saveProcessor.StopCoroutine(saveCoroutine);
-            }
-
-            saveCoroutine = saveProcessor.StartCoroutine(saveProcessor.SaveCoroutine(framesCooldown));
-            return;
+            saveProcessor.StopCoroutine(saveCoroutine);
         }
 
-        var hasChanges = false;
-
-        lock (recordsStorage.lockObject)
-        {
-            foreach (var record in recordsStorage)
-            {
-                hasChanges |= record.isDirty;
-                record.Apply();
-            }
-        }
+        saveCoroutine = saveProcessor.StartCoroutine(saveProcessor.SaveCoroutine(framesCooldown));
     }
 
     /// <summary>
@@ -325,7 +310,21 @@ public static class DataStorage
             }
 
             // Force save all records
-            Save(0);
+            var hasChanges = false;
+
+            lock (recordsStorage.lockObject)
+            {
+                foreach (var record in recordsStorage)
+                {
+                    hasChanges |= record.isDirty;
+                    record.Apply();
+                }
+            }
+
+            if (!hasChanges)
+            {
+                yield break;
+            }
 
             // Wait for all records of objects to be processed
             lock (recordsStorage.lockObject)
