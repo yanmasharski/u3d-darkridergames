@@ -93,130 +93,12 @@ public static class DataStorage
     }
 
     /// <summary>
-    /// Sets an integer value for the specified key. The value is cached in memory
-    /// and only written to disk when Save() is called.
-    /// </summary>
-    /// <param name="key">The key to set.</param>
-    /// <param name="val">The integer value to store.</param>
-    public static void SetInt(string key, int val)
-    {
-        lock (recordsInt)
-        {
-            if (!recordsInt.TryGetValue(key, out var result))
-            {
-                result = new DataRecordInt(key, val);
-                recordsInt[key] = result;
-            }
-
-            result.SetValue(val);
-        }
-    }
-
-    /// <summary>
-    /// Sets a float value for the specified key. The value is cached in memory
-    /// and only written to disk when Save() is called.
-    /// </summary>
-    /// <param name="key">The key to set.</param>
-    /// <param name="val">The float value to store.</param>
-    public static void SetFloat(string key, float val)
-    {
-        lock (recordsFloat)
-        {
-            if (!recordsFloat.TryGetValue(key, out var result))
-            {
-                result = new DataRecordFloat(key, val);
-                recordsFloat[key] = result;
-            }
-
-            result.SetValue(val);
-        }
-    }
-
-    /// <summary>
-    /// Sets a string value for the specified key. The value is cached in memory
-    /// and only written to disk when Save() is called. If the value is null or empty,
-    /// the key is deleted.
-    /// </summary>
-    /// <param name="key">The key to set.</param>
-    /// <param name="val">The string value to store.</param>
-    public static void SetString(string key, string val)
-    {
-        if (string.IsNullOrEmpty(val))
-        {
-            DeleteKey(key);
-        }
-        else
-        {
-            lock (recordsString)
-            {
-                if (!recordsString.TryGetValue(key, out var result))
-                {
-                    result = new DataRecordString(key, val);
-                    recordsString[key] = result;
-                }
-
-                result.SetValue(val);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Sets an object value for the specified key. The object is serialized using the provided
-    /// serializer and cached in memory. It's only written to disk when Save() is called.
-    /// If the object is null, the key is deleted.
-    /// </summary>
-    /// <typeparam name="T">The type of object to store.</typeparam>
-    /// <param name="key">The key to set.</param>
-    /// <param name="obj">The object to store.</param>
-    /// <param name="serializer">The serializer to use for converting the object to a storable format.</param>
-    public static void SetObject<T>(string key, T obj, IDataSerializer serializer)
-    {
-        if (obj == null)
-        {
-            DeleteKey(key);
-        }
-        else
-        {
-            lock (recordsObject)
-            {
-                if (!recordsObject.TryGetValue(key, out var result))
-                {
-                    result = new DataRecordObject(key, typeof(T), obj, serializer);
-                    recordsObject[key] = result;
-                }
-
-                result.SetValue(obj);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Sets a boolean value for the specified key. The value is cached in memory
-    /// and only written to disk when Save() is called.
-    /// </summary>
-    /// <param name="key">The key to set.</param>
-    /// <param name="value">The boolean value to store.</param>
-    public static void SetBool(string key, bool value)
-    {
-        lock (recordsBool)
-        {
-            if (!recordsBool.TryGetValue(key, out var result))
-            {
-                result = new DataRecordBool(key, value);
-                recordsBool[key] = result;
-            }
-
-            result.SetValue(value);
-        }
-    }
-
-    /// <summary>
     /// Gets an integer value for the specified key. Returns the default value if the key doesn't exist.
     /// </summary>
     /// <param name="key">The key to retrieve.</param>
     /// <param name="defaultVal">The default value to return if the key doesn't exist.</param>
-    /// <returns>The stored integer value or the default value.</returns>
-    public static int GetInt(string key, int defaultVal = 0)
+    /// <returns>The stored integer value record.</returns>
+    public static DataRecordInt GetInt(string key, int defaultVal = 0)
     {
         lock (recordsInt)
         {
@@ -226,7 +108,7 @@ public static class DataStorage
                 recordsInt[key] = result;
             }
 
-            return result.GetValue();
+            return result;
         }
     }
 
@@ -235,8 +117,8 @@ public static class DataStorage
     /// </summary>
     /// <param name="key">The key to retrieve.</param>
     /// <param name="defaultVal">The default value to return if the key doesn't exist.</param>
-    /// <returns>The stored float value or the default value.</returns>
-    public static float GetFloat(string key, float defaultVal = 0f)
+    /// <returns>The stored float value record.</returns>
+    public static DataRecordFloat GetFloat(string key, float defaultVal = 0f)
     {
         lock (recordsFloat)
         {
@@ -246,7 +128,7 @@ public static class DataStorage
                 recordsFloat[key] = result;
             }
 
-            return result.GetValue();
+            return result;
         }
     }
 
@@ -255,8 +137,8 @@ public static class DataStorage
     /// </summary>
     /// <param name="key">The key to retrieve.</param>
     /// <param name="defaultVal">The default value to return if the key doesn't exist.</param>
-    /// <returns>The stored string value or the default value.</returns>
-    public static string GetString(string key, string defaultVal = "")
+    /// <returns>The stored string value record.</returns>
+    public static DataRecordString GetString(string key, string defaultVal = "")
     {
         lock (recordsString)
         {
@@ -266,7 +148,7 @@ public static class DataStorage
                 recordsString[key] = result;
             }
 
-            return result.GetValue();
+            return result;
         }
     }
 
@@ -276,8 +158,8 @@ public static class DataStorage
     /// <typeparam name="T">The type of object to retrieve.</typeparam>
     /// <param name="key">The key to retrieve.</param>
     /// <param name="serializer">The serializer to use for converting from the stored format.</param>
-    /// <returns>The stored object or the default value for the type.</returns>
-    public static T GetObject<T>(string key, IDataSerializer serializer)
+    /// <returns>The stored object record.</returns>
+    public static DataRecordObject GetObject<T>(string key, IDataSerializer serializer)
     {
         lock (recordsObject)
         {
@@ -287,7 +169,7 @@ public static class DataStorage
                 recordsObject[key] = result;
             }
 
-            return result.GetValue<T>();
+            return result;
         }
     }
 
@@ -296,8 +178,8 @@ public static class DataStorage
     /// </summary>
     /// <param name="key">The key to retrieve.</param>
     /// <param name="defaultValue">The default value to return if the key doesn't exist.</param>
-    /// <returns>The stored boolean value or the default value.</returns>
-    public static bool GetBool(string key, bool defaultValue = default)
+    /// <returns>The stored boolean value record.</returns>
+    public static DataRecordBool GetBool(string key, bool defaultValue = default)
     {
         lock (recordsBool)
         {
@@ -307,7 +189,7 @@ public static class DataStorage
                 recordsBool[key] = result;
             }
 
-            return result.GetValue();
+            return result;
         }
     }
 
